@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build",
+    "start": "vite preview --host --port $PORT"
   },
   "dependencies": {
     "@vapi-ai/web": "^2.2.5",
