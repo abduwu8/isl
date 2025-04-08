@@ -5,37 +5,51 @@ import { FiMessageSquare, FiSend, FiX } from 'react-icons/fi'
 import Threads from '../components/Threads'
 
 // Component for mobile title display
-const MobileTitle = ({ onMouseEnter, onMouseLeave }) => (
-  <div className="block md:hidden">
+const MobileTitle = ({ onTooltipClick }) => (
+  <div className="block md:hidden w-full">
     <h1 
-      className="text-white font-light cursor-pointer"
+      className="text-white font-light cursor-pointer flex flex-col items-center justify-center"
       style={{ 
         letterSpacing: '-0.05em',
         textShadow: '0 0 20px rgba(217, 78, 39, 0.25), 0 0 40px rgba(0, 0, 0, 0.1)'
       }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
     >
-      <div className="text-5xl" style={{ lineHeight: '1.1' }}>alham</div>
-      <div className="text-3xl" style={{ marginTop: '30px', marginBottom: '25px' }}>AI</div>
+      <div className="text-8xl relative" style={{ lineHeight: '1.1' }}>
+        alham
+        <button 
+          onClick={onTooltipClick}
+          className="absolute -right-6 top-3 text-[#D94E27] text-lg opacity-70 hover:opacity-100"
+          aria-label="Show meaning"
+        >
+          ⓘ
+        </button>
+      </div>
+      <div className="text-6xl mt-3 mb-5">AI</div>
     </h1>
   </div>
 );
 
 // Component for desktop title display
-const DesktopTitle = ({ onMouseEnter, onMouseLeave }) => (
-  <div className="hidden md:block">
+const DesktopTitle = ({ onTooltipClick }) => (
+  <div className="hidden md:block w-full">
     <h1 
-      className="text-white font-light cursor-pointer"
+      className="text-white font-light cursor-pointer flex items-center justify-center"
       style={{ 
         letterSpacing: '-0.05em',
         textShadow: '0 0 20px rgba(217, 78, 39, 0.25), 0 0 40px rgba(0, 0, 0, 0.1)'
       }}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
     >
-      <div className="text-8xl" style={{ lineHeight: '1.1' }}>alham</div>
-      <div className="text-5xl mt-2 mb-4">AI</div>
+      <span className="text-8xl relative" style={{ lineHeight: '1.1' }}>
+        alham
+        <button 
+          onClick={onTooltipClick}
+          className="absolute -right-7 top-2 text-[#D94E27] text-lg opacity-70 hover:opacity-100"
+          aria-label="Show meaning"
+        >
+          ⓘ
+        </button>
+      </span>
+      <span className="text-6xl ml-5 mt-2">AI</span>
     </h1>
   </div>
 );
@@ -134,61 +148,76 @@ const MainPage = () => {
       
       {/* Title and Description with fade-in animation */}
       <div 
-        className={`absolute z-10 text-center transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}`} 
-        style={{ top: '18%', left: '50%', transform: 'translate(-50%, -50%)', maxWidth: '90%' }}
+        className={`absolute z-10 text-center w-full transition-all duration-1000 ease-out ${isVisible ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}`} 
+        style={{ top: '30%', left: '50%', transform: 'translate(-50%, -50%)', width: '100%' }}
       >
-        <div className="relative inline-block">
+        <div className="mx-auto max-w-md px-4">
           <MobileTitle 
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
+            onTooltipClick={() => setShowTooltip(true)}
           />
           <DesktopTitle 
-            onMouseEnter={() => setShowTooltip(true)}
-            onMouseLeave={() => setShowTooltip(false)}
+            onTooltipClick={() => setShowTooltip(true)}
           />
           
           {/* Informative Tooltip */}
-          <div 
-            className={`absolute left-1/2 transform -translate-x-1/2 bg-black/90 backdrop-blur-md border border-[#D94E27]/30 rounded-lg p-4 shadow-lg text-left w-72 sm:w-80 z-20 transition-all duration-300 ${
-              showTooltip ? 'opacity-100 -top-28' : 'opacity-0 -top-20 pointer-events-none'
-            }`}
-          >
-            <div className="text-[#D94E27] text-sm font-medium mb-1">alham (الهام)</div>
-            <div className="text-white/80 text-sm mb-2">An Arabic term meaning "inspiration" or "divine guidance".</div>
-            <div className="text-white/60 text-xs">alham AI aims to provide guidance through technology with Islamic principles at its core.</div>
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-4 h-4 bg-black/90 border-r border-b border-[#D94E27]/30"></div>
-          </div>
+          {showTooltip && (
+            <div 
+              className="fixed left-1/2 -translate-x-1/2 top-1/4 bg-black/95 backdrop-blur-md border border-[#D94E27]/30 rounded-lg p-5 pr-8 shadow-lg text-left w-[85%] max-w-[320px] z-50 transition-all duration-300"
+            >
+              <button 
+                className="absolute top-3 right-3 text-white/60 hover:text-white" 
+                onClick={() => setShowTooltip(false)}
+                aria-label="Close tooltip"
+              >
+                <FiX size={16} />
+              </button>
+              <div className="text-[#D94E27] text-sm font-medium mb-2">alham (الهام)</div>
+              <div className="text-white/80 text-sm mb-3">An Arabic term meaning "inspiration" or "divine guidance".</div>
+              <div className="text-white/60 text-xs">alham AI aims to provide guidance through technology with Islamic principles at its core.</div>
+            </div>
+          )}
         </div>
         
-        <p className="text-white/60 text-sm xs:text-base sm:text-lg md:text-xl font-light tracking-wide mb-8 px-4">
-          first ever <span className="relative inline-block mx-1">
-            <span className="absolute inset-0 bg-[#D94E27] rounded-md opacity-40" style={{ transform: 'skew(-5deg)', padding: '0 4px' }}></span>
-            <span className="relative text-white font-normal px-1">islamic</span>
-          </span> voice assistant.
+        <p className="text-white/60 text-lg sm:text-xl md:text-2xl font-light tracking-wide mt-6 mb-8 mx-auto max-w-xs sm:max-w-md px-6">
+          <span className="flex items-center justify-center flex-wrap">
+            <span>first ever</span>
+            <span className="relative inline-block mx-2 my-1">
+              <span className="absolute inset-0 bg-[#D94E27] rounded-md opacity-40" style={{ transform: 'skew(-5deg)', padding: '0 4px' }}></span>
+              <span className="relative text-white font-normal px-2">islamic</span>
+            </span>
+            <span>voice assistant.</span>
+          </span>
         </p>
       </div>
       
       {/* Microphone button in center */}
       <div 
-        className={`absolute z-10 transition-all duration-1000 delay-300 ease-out ${isVisible ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}`}
-        style={{ top: '70%', left: '50%', transform: 'translate(-50%, -50%)' }}
+        className={`absolute left-0 right-0 mx-auto w-max z-10 transition-all duration-1000 delay-300 ease-out flex flex-col items-center ${isVisible ? 'opacity-100 transform-none' : 'opacity-0 translate-y-8'}`}
+        style={{ 
+          top: '65%',
+          transform: 'translateY(-50%)'
+        }}
       >
         <button 
           onClick={toggleAssistant}
-          className={`flex items-center justify-center rounded-full w-14 h-14 sm:w-16 sm:h-16 transition-all duration-500 shadow-lg ${
+          className={`flex items-center justify-center rounded-full w-20 h-20 sm:w-22 sm:h-22 transition-all duration-500 shadow-lg border-2 border-white/20 ${
             isListening 
-              ? 'bg-[#D94E27] ring-2 ring-[#D94E27]/60 shadow-[#D94E27]/20' 
-              : 'bg-[#D94E27] hover:bg-[#D94E27]/90 hover:shadow-[0_0_25px_rgba(217,78,39,0.4)] shadow-[#D94E27]/10'
+              ? 'bg-[#D94E27] ring-4 ring-[#D94E27]/40 shadow-[0_0_30px_rgba(217,78,39,0.5)]' 
+              : 'bg-[#D94E27] hover:bg-[#D94E27]/90 hover:shadow-[0_0_25px_rgba(217,78,39,0.4)] shadow-[0_0_15px_rgba(217,78,39,0.3)]'
           }`}
           aria-label={isListening ? "Stop listening" : "Start listening"}
         >
           {isListening ? (
-            <FaMicrophoneSlash className="text-white text-xl sm:text-2xl" />
+            <FaMicrophoneSlash className="text-white text-3xl sm:text-4xl" />
           ) : (
-            <FaMicrophone className="text-white text-xl sm:text-2xl" />
+            <FaMicrophone className="text-white text-3xl sm:text-4xl" />
           )}
         </button>
-        <div className="text-xs font-light text-white/40 text-center mt-5">tap to speak</div>
+        <div className="text-lg font-semibold text-white text-center mt-4">
+          <span className="px-4 py-1.5 bg-black/50 rounded-full border border-white/10">
+            tap to speak
+          </span>
+        </div>
       </div>
       
       {/* Chat Button */}
