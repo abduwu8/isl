@@ -66,7 +66,6 @@ const MainPage = () => {
   const [isVisible, setIsVisible] = useState(false)
   const [showTooltip, setShowTooltip] = useState(false)
   const [showChat, setShowChat] = useState(false)
-  const [showHint, setShowHint] = useState(false)
   const [messages, setMessages] = useState([
     { role: 'assistant', content: 'Assalamu alaikum! How can I assist you today?' }
   ])
@@ -78,17 +77,6 @@ const MainPage = () => {
   // Animation on component mount
   useEffect(() => {
     setIsVisible(true)
-    
-    // Show hint after 3 seconds only on mobile devices
-    const timer = setTimeout(() => {
-      if (window.innerWidth < 768) {
-        setShowHint(true)
-        // Auto-hide after 5 seconds
-        setTimeout(() => setShowHint(false), 5000)
-      }
-    }, 3000)
-    
-    return () => clearTimeout(timer)
   }, [])
 
   // Scroll to bottom of chat when messages change
@@ -230,15 +218,6 @@ const MainPage = () => {
             <path d="M0,50 C30,20 70,20 100,50" stroke="#D94E27" strokeWidth="0.5" fill="none" strokeDasharray="2,2" />
           </svg>
         </div>
-        
-        {/* Feature hint for mobile - only shows briefly */}
-        {showHint && (
-          <div className="absolute -left-36 top-10 md:hidden bg-gradient-to-r from-[#D94E27]/20 to-black/60 backdrop-blur-md p-3 rounded-lg max-w-[140px] text-xs text-white/80 shadow-lg border border-[#D94E27]/30 transform -rotate-6">
-            <FiHelpCircle className="inline-block mr-1 text-[#D94E27]" />
-            <span>Ask me questions about Islam!</span>
-            <div className="absolute h-0.5 w-12 bg-[#D94E27]/30 -right-8 top-1/2"></div>
-          </div>
-        )}
         
         <div className={`absolute rounded-full w-24 h-24 sm:w-26 sm:h-26 ${isListening ? 'animate-ping bg-[#D94E27]/20' : 'bg-transparent'}`}></div>
         <button 
